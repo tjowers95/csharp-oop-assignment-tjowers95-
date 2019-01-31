@@ -21,7 +21,10 @@ namespace CsharpOopAssignment
          */
 	    public RationalBase(int numerator, int denominator)
 	    {
-		    throw new NotImplementedException();
+            if (denominator == 0)
+                throw new ArgumentException();
+            this.Numerator = numerator;
+            this.Denominator = denominator;
 	    }
 
         /**
@@ -50,7 +53,7 @@ namespace CsharpOopAssignment
          */
         public RationalBase Negate()
         {
-	        throw new NotImplementedException();
+            return Construct(-(this.Numerator), this.Denominator);
         }
 
         /**
@@ -64,7 +67,9 @@ namespace CsharpOopAssignment
 		 */
         public RationalBase Invert()
         {
-	        throw new NotImplementedException();
+            if (this.Numerator == 0)
+                throw new InvalidOperationException();
+            return Construct(this.Denominator, this.Numerator);
         }
 
         /**
@@ -80,7 +85,9 @@ namespace CsharpOopAssignment
          */
         public RationalBase Add(RationalBase that)
         {
-	        throw new NotImplementedException();
+            if (that == null)
+                throw new InvalidOperationException();
+            return Construct((this.Numerator * that.Denominator) + (that.Numerator * this.Denominator), (this.Denominator * that.Denominator));
         }
 
         /**
@@ -96,7 +103,9 @@ namespace CsharpOopAssignment
          */
         public RationalBase Sub(RationalBase that)
         {
-	        throw new NotImplementedException();
+            if (that == null)
+                throw new InvalidOperationException();
+            return Construct((this.Numerator * that.Denominator) - (that.Numerator * this.Denominator), this.Denominator * that.Denominator);
         }
 
         /**
@@ -112,14 +121,16 @@ namespace CsharpOopAssignment
          */
         public RationalBase Mul(RationalBase that)
         {
-	        throw new NotImplementedException();
+            if (that == null)
+                throw new InvalidOperationException();
+            return Construct( this.Numerator * that.Numerator, this.Denominator * that.Denominator);
         }
 
         /**
 		 * division of rational values
 		 * <p>
 		 * definition: `(n1 / d1) / (n2 / d2) = (n1 * d2) / (d1 * n2)`
-		 *
+		 * <p>
 		 * @param that
 		 *            the value to divide this by
 		 * @return the ratio of this to that
@@ -128,7 +139,9 @@ namespace CsharpOopAssignment
 		 */
         public RationalBase Div(RationalBase that)
         {
-	        throw new NotImplementedException();
+            if (that == null || that.Numerator == 0)
+                throw new InvalidOperationException();
+            return Construct( this.Numerator * that.Denominator, this.Denominator * that.Numerator);
         }
     }
 }

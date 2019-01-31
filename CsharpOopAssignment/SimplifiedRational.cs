@@ -15,7 +15,16 @@ namespace CsharpOopAssignment
          */
         public static int Gcd(int a, int b)
         {
-	        throw new NotImplementedException();
+            if (a <= 0 || b < 0)
+                throw new InvalidOperationException();
+
+            int i, gcd = 0;
+            for (i = 0; i < a && i < b; i++)
+                if (i != 0 && a % i == 0 && b % i == 0)
+                    if (i > gcd)
+                        gcd = i;
+
+            return gcd;
         }
 
         /**
@@ -32,8 +41,20 @@ namespace CsharpOopAssignment
          * @throws InvalidOperationException if the given denominator is 0
          */
         public static int[] Simplify(int numerator, int denominator)
-        {   
-	        throw new NotImplementedException();
+        {
+            if (denominator == 0)
+                throw new InvalidOperationException();
+            int gcd;
+            try
+            {
+               gcd = Gcd(numerator, denominator);
+            }
+            catch
+            {
+                return new int[] {numerator, denominator};
+            }
+
+            return new int[] { numerator / gcd, denominator / gcd };
         }
 
         /**
@@ -49,9 +70,7 @@ namespace CsharpOopAssignment
          * @throws ArgumentException if the given denominator is 0
          */
         public SimplifiedRational(int numerator, int denominator) : base(numerator, denominator)
-        {
-	        throw new NotImplementedException();
-        }
+        { }
 
         /**
 		 * Specialized constructor to take advantage of shared code between
@@ -70,7 +89,12 @@ namespace CsharpOopAssignment
 		 */
         public override RationalBase Construct(int numerator, int denominator)
         {
-	        throw new NotImplementedException();
+            if (denominator == 0)
+                throw new ArgumentException();
+
+            int[] t = Simplify(numerator, denominator);
+
+            return new SimplifiedRational(t[0], t[1]);
         }
 
         /**
@@ -81,7 +105,16 @@ namespace CsharpOopAssignment
          */
         public override bool Equals(object obj)
         {
-	        throw new NotImplementedException();
+            if (obj == this) return true;
+            if (obj == null) return false;
+
+            SimplifiedRational t = null;
+
+            if (obj is SimplifiedRational)
+                t = (SimplifiedRational)obj;
+            else
+                return false;
+            return (this.Numerator == t.Numerator && this.Denominator == t.Denominator);
         }
 
         /**
@@ -93,7 +126,10 @@ namespace CsharpOopAssignment
          */
         public override string ToString()
         {
-	        throw new NotImplementedException();
+            if (this.Numerator < 0)
+                return $"-{this.Numerator}/{this.Denominator}";
+            else
+                return $"{this.Numerator}/{this.Denominator}";
         }
     }
 }
